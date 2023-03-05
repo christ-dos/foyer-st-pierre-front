@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Ticket from './composants/Ticket';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import Footer from './composants/Footer';
+import Header from './composants/Header';
 
 function App() {
+  const items = ['1 canette Coca 1 € X', 'Article 2', 'Article 3', 'Article 4', 'Article 5'];
+  const total = 30;
+  let count = 1;
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <div className='container-fluid d-sm-flex'>
+        <div className='col-12 col-sm-9'>
+          <p className='bg-warning'> ceci est un paragraphe</p>
+        </div>
+        <div className='col-12 col-sm-3 d-flex justify-content-center align-items-center'
+          style={{ height: '420px', backgroundColor: '#ccc' }}>
+          <Ticket items={items} total={total} count={count++} />
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 }
