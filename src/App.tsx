@@ -1,8 +1,8 @@
 import './App.css';
-import Ticket from './composants/Ticket';
+import Ticket from './HomePage/composants/Ticket';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import Footer from './composants/Footer';
-import Header from './composants/Header';
+import Footer from './HearderAndFooter/Footer';
+import Header from './HearderAndFooter/Header';
 
 function App() {
   const items = ['1 canette Coca 1 € X', 'Article 2', 'Article 3', 'Article 4', 'Article 5'];
