@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Produit } from '../../models/Produit';
 import Keyboard from './keyboard';
 import Ticket from './Ticket';
 
@@ -6,41 +7,46 @@ function CashRegister(): JSX.Element {
     const [total, setTotal] = useState<number>(30);
     const [payment, setPayment] = useState<number>(0);
     const [items, setItems] = useState<string[]>([]);
+    const [itemsId, setItemsId] = useState<string[]>([]);
 
-    const produits = [
-        { id: 1, description: "Coca-ligth 33cl", prix: 1, categorie: 1, urlPicture: "/images/canette-coca.png" },
-        { id: 2, description: "Coca 33cl", prix: 1, categorie: 1, urlPicture: "/images/canette-coca.png" },
-        { id: 3, description: "Ice-tea 33cl", prix: 1, categorie: 1, urlPicture: "/images/canette-coca.png" },
-        { id: 4, description: "Coca 33cl", prix: 1, categorie: 1, urlPicture: "/images/canette-coca.png" },
-        { id: 5, description: "Coca 33cl", prix: 1, categorie: 1, urlPicture: "/images/canette-coca.png" },
-        { id: 6, description: "bière 33cl", prix: 1, categorie: 2, urlPicture: "./images/canette_biere.png" },
-        { id: 7, description: "bière 33cl", prix: 1, categorie: 2, urlPicture: "./images/canette_biere.png" },
-        { id: 8, description: "bière 33cl", prix: 1, categorie: 2, urlPicture: "./images/canette_biere.png" },
-        { id: 9, description: "bière 33cl", prix: 1, categorie: 2, urlPicture: "./images/canette_biere.png" }
+    const produits: Produit[] = [
+        { id: 1, description: "Coca-ligth 33cl", prixVente: 1, typeProduit: 1, urlPicture: "/images/canette-coca.png" },
+        { id: 2, description: "Coca 33cl", prixVente: 1, typeProduit: 1, urlPicture: "/images/canette-coca.png" },
+        { id: 3, description: "Ice-tea 33cl", prixVente: 1, typeProduit: 1, urlPicture: "/images/canette-coca.png" },
+        { id: 4, description: "Coca 33cl", prixVente: 1, typeProduit: 1, urlPicture: "/images/canette-coca.png" },
+        { id: 5, description: "Coca 33cl", prixVente: 1, typeProduit: 1, urlPicture: "/images/canette-coca.png" },
+        { id: 6, description: "bière 33cl", prixVente: 1, typeProduit: 2, urlPicture: "./images/canette_biere.png" },
+        { id: 7, description: "bière 33cl", prixVente: 1, typeProduit: 2, urlPicture: "./images/canette_biere.png" },
+        { id: 8, description: "bière 33cl", prixVente: 1, typeProduit: 2, urlPicture: "./images/canette_biere.png" },
+        { id: 9, description: "bière 33cl", prixVente: 1, typeProduit: 2, urlPicture: "./images/canette_biere.png" }
 
     ]
 
     let count = 1;
-    const itemsAdded: string[] = [];
+  
 
 
 
     const handleKeyPress = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const key = event.currentTarget.value;
-        //itemsAdded.push(key);
         items.push(key);
-        console.log(key);
-
-
-        const amount = parseFloat(key);
-        if (!isNaN(amount)) {
-            const newTotal = total + amount;
-            setTotal(parseFloat(newTotal.toFixed(2)));
+        for (const produit of produits) {
+            if(+key === produit.id){
+               // const amount = parseFloat(produit.prix);
+                if (!isNaN(produit.prix)) {
+                    const newTotal = total + produit.prix;
+                    setTotal(parseFloat(newTotal.toFixed(2)));
+                }
+            }
+            
         }
+
+
+       
     };
 
     useEffect(() => {
-        setItems(itemsAdded);
+        //setItems(itemsAdded);
 
     }, []);
 
@@ -74,7 +80,8 @@ function CashRegister(): JSX.Element {
                         handleKeyPress={handleKeyPress}
                         produits={produits} />
                     <div className="payment">
-                        <input type="number" value={payment} onChange={(event) => setPayment(parseFloat(event.target.value))} placeholder="Paiement" />
+                        <input type="number" value={payment} 
+                            onChange={(event) => setPayment(parseFloat(event.target.value))} placeholder="Paiement" />
                         <button onClick={handlePayment}>Valider</button>
                     </div>
                 </div>
