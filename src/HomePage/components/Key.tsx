@@ -1,6 +1,7 @@
 import { MouseEventHandler } from "react";
+import { Produit } from "../../models/Produit";
 
-export const Key: React.FC<{ produit: any, handleKeyPress: MouseEventHandler }> = (props) => {
+export const Key: React.FC<{ produit: Produit, handleKeyPress: MouseEventHandler }> = (props) => {
 
 
 
@@ -10,10 +11,12 @@ export const Key: React.FC<{ produit: any, handleKeyPress: MouseEventHandler }> 
             value={props.produit.id}
             className="btn btn-block text-light"
             style={{
-                boxShadow: '5px 5px 5px #ccc',
+                marginRight: '4px',
+                marginBottom: '8px',
+                boxShadow: '3px 3px 3px gray',
                 width: '172px', height: '140px',
                 fontSize: '1.2rem',
-                backgroundColor: props.produit?.categorie === 1 ? ('#cd6c1e') : ('#ccc')
+                backgroundColor: props.produit?.typeProduit === 1 ? ('#cd6c1e') : ('#ccc')
             }}
             onClick={props.handleKeyPress}
         >

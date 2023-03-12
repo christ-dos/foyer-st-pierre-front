@@ -3,13 +3,22 @@ import { Produit } from '../../models/Produit';
 import Keyboard from './keyboard';
 import Ticket from './Ticket';
 
-function CashRegister(): JSX.Element {
-    const [total, setTotal] = useState<number>(30);
-    const [payment, setPayment] = useState<number>(0);
-    const [items, setItems] = useState<string[]>([]);
-    const [itemsId, setItemsId] = useState<string[]>([]);
+type ItemTicket = {
+    id: string,
+    description: string,
+    quantite: number,
+    totalSommeArticle: number,
+    prixVente: number
+}
 
-    const produits: Produit[] = [
+function CashRegister(): JSX.Element {
+    const [total, setTotal] = useState<number>(0);
+    const [payment, setPayment] = useState<number>(0);
+    const [produits, setProduits] = useState<Produit[]>([]);
+    const [produitsTicket, setProduitsTicket] = useState<Set<ItemTicket>>(new Set([]));
+    // const [items, setItems] = useState<Set<ItemTicket>>(new Set([]));
+
+    const articles: Produit[] = [
         { id: 1, description: "Coca-ligth 33cl", prixVente: 1, typeProduit: 1, urlPicture: "/images/canette-coca.png" },
         { id: 2, description: "Coca 33cl", prixVente: 1, typeProduit: 1, urlPicture: "/images/canette-coca.png" },
         { id: 3, description: "Ice-tea 33cl", prixVente: 1, typeProduit: 1, urlPicture: "/images/canette-coca.png" },
@@ -23,32 +32,44 @@ function CashRegister(): JSX.Element {
     ]
 
     let count = 1;
-  
+
+    useEffect(() => {
+        setProduits(articles)
+        // console.log(produits);
+
+    }, [])
 
 
+    const additionnerTotalTicket = (produit: any) => {
+        if (!isNaN(produit.prixVente)) {
+            const newTotal = total + produit.prixVente;
+            setTotal(parseFloat(newTotal.toFixed(2)));
+        }
+    }
 
     const handleKeyPress = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const key = event.currentTarget.value;
-        items.push(key);
-        for (const produit of produits) {
-            if(+key === produit.id){
-               // const amount = parseFloat(produit.prix);
-                if (!isNaN(produit.prix)) {
-                    const newTotal = total + produit.prix;
-                    setTotal(parseFloat(newTotal.toFixed(2)));
-                }
-            }
-            
+
+        const elementExist = [...produitsTicket].find((el) => el.id === key)
+        if (elementExist) {
+
+            elementExist.quantite += 1;
+            elementExist.totalSommeArticle = elementExist.prixVente * elementExist.quantite;
+            setProduitsTicket((produitsTicket) => new Set([...produitsTicket, elementExist]));
+
+            additionnerTotalTicket(elementExist);
+
         }
 
+        for (const produit of produits) {
+            if (+key === produit.id && !elementExist) {
+                const newItem = { id: key, quantite: 1, prixVente: produit.prixVente, description: produit.description, totalSommeArticle: 1 }
+                setProduitsTicket((produitsTicket) => new Set([...produitsTicket, newItem]));
 
-       
+                additionnerTotalTicket(produit);
+            }
+        }
     };
-
-    useEffect(() => {
-        //setItems(itemsAdded);
-
-    }, []);
 
     const handlePayment = () => {
         const change = payment - total;
@@ -58,38 +79,24 @@ function CashRegister(): JSX.Element {
     };
 
     return (
-        <div className='container-fluid d-sm-flex bg-dark'>
-            <div className='col-12 col-sm-9 min-vh-100'>
-                <div className="cash-register">
-                    <h1 className='text-white'>Caisse enregistreuse</h1>
-                    <div className="total text-white">{`Total: ${total.toFixed(2)} €`}</div>
-                    <div className="keyboard">
-                        <button value="1" onClick={handleKeyPress}>1</button>
-                        <button value="2" onClick={handleKeyPress}>2</button>
-                        <button value="3" onClick={handleKeyPress}>3</button>
-                        <button value="4" onClick={handleKeyPress}>4</button>
-                        <button value="5" onClick={handleKeyPress}>5</button>
-                        <button value="6" onClick={handleKeyPress}>6</button>
-                        <button value="7" onClick={handleKeyPress}>7</button>
-                        <button value="8" onClick={handleKeyPress}>8</button>
-                        <button value="9" onClick={handleKeyPress}>9</button>
-                        <button value="0" onClick={handleKeyPress}>0</button>
-                        <button value="." onClick={handleKeyPress}>.</button>
-                    </div>
+        <div className='container d-sm-flex bg-dark min-lg-vh-100'>
+            <div className='col-12 col-sm-9 '>
+                <div className="row cash-register mt-3">
                     <Keyboard
                         handleKeyPress={handleKeyPress}
-                        produits={produits} />
-                    <div className="payment">
-                        <input type="number" value={payment} 
-                            onChange={(event) => setPayment(parseFloat(event.target.value))} placeholder="Paiement" />
-                        <button onClick={handlePayment}>Valider</button>
-                    </div>
+                        produits={produits}
+                    />
                 </div>
             </div>
             <div className='col-12 col-sm-3 d-flex 
                 justify-content-center align-items-center min-vh-100'
             >
-                <Ticket items={items} total={total} count={count++} />
+                <Ticket items={[...produitsTicket]} total={total} count={count++} />
+            </div>
+            <div className="col-12 payment conatiner">
+                <input type="number" value={payment}
+                    onChange={(event) => setPayment(parseFloat(event.target.value))} placeholder="Paiement" />
+                <button onClick={handlePayment}>Valider</button>
             </div>
         </div>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../css/ticket.css'
+import { Produit } from '../../models/Produit';
 
 
 
@@ -7,8 +8,6 @@ const Ticket: React.FC<{ items: any[], total: number, count: number }> = (props)
     const timestamp: number = Date.now();
     const date: Date = new Date(timestamp);
     let ticketNumber = props.count;
-    console.log(props.items);
-
 
     return (
         <div className="ticket">
@@ -21,8 +20,20 @@ const Ticket: React.FC<{ items: any[], total: number, count: number }> = (props)
             <div className="ticket-body ">
                 <div className="ticket-items">
                     {props.items.map((item, index) => (
-                        <div key={index} className="ticket-item">
-                            <span>{item}</span>
+                        <div key={item.id} className="ticket-item">
+                            <span className='col-1'>{item.quantite}</span>
+                            <span className='col-6'>{item.description}</span>
+                            <span className='col-3'>{item.totalSommeArticle}€ </span>
+                            <button
+                                className=" col-1 ms-2 btn btn-outline-danger 
+                                    d-flex justify-content-center align-items-center"
+                                type={"button"}
+                                id="deleteProduit"
+                            >
+                                X
+                            </button>
+
+
                         </div>
                     ))}
                 </div>
@@ -30,7 +41,7 @@ const Ticket: React.FC<{ items: any[], total: number, count: number }> = (props)
             <div className="ticket-footer">
                 <span>Total : <b>{props.total.toFixed(2)} €</b></span>
             </div>
-        </div>
+        </div >
     );
 };
 
