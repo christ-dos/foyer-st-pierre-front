@@ -5,7 +5,7 @@ import CashRegister from "./components/CashRegister";
 const HomePage = () => {
 
     return (
-        <div className='container-fluid d-sm-flex bg-dark'>
+        <div className='container-fluid bg-dark'>
             <CashRegister />
         </div>
     );

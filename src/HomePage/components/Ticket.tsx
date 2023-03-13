@@ -1,6 +1,5 @@
 import React from 'react';
-import '../../css/ticket.css'
-import { Produit } from '../../models/Produit';
+import '../../HomePage/css/ticket.css';
 
 
 
@@ -17,7 +16,7 @@ const Ticket: React.FC<{ items: any[], total: number, count: number }> = (props)
                 <p>{`N° ${date.valueOf()}/${ticketNumber}`}</p>
                 <p>{`le ${date.toLocaleString()}`}</p>
             </div>
-            <div className="ticket-body ">
+            <div className="ticket-body">
                 <div className="ticket-items">
                     {props.items.map((item, index) => (
                         <div key={item.id} className="ticket-item">
@@ -25,7 +24,7 @@ const Ticket: React.FC<{ items: any[], total: number, count: number }> = (props)
                             <span className='col-6'>{item.description}</span>
                             <span className='col-3'>{item.totalSommeArticle}€ </span>
                             <button
-                                className=" col-1 ms-2 btn btn-outline-danger 
+                                className=" col-1 ms-2 btn btn-outline-danger py-0
                                     d-flex justify-content-center align-items-center"
                                 type={"button"}
                                 id="deleteProduit"
