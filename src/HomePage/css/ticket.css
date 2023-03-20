@@ -7,7 +7,7 @@
     position: relative;
     box-shadow: 3px 3px 3px #b0afb0;
     z-index: 1;
-    width: 470px;
+    width: 350px;
 }
 
 /*.ticket::after {
@@ -82,39 +82,45 @@ ticket-title {
         overflow-y: auto;
         min-height: 70vh;
         max-height: 200px;
-
     }
 }
 
 @media screen and (min-width: 768px) {
 
     .ticket-body {
-        min-height: 126vh;
+        min-height: 90vh;
     }
 
     .ticket {
-        max-width: 98%;
+        width: 480px;
     }
 }
 
 @media screen and (min-width: 992px) {
 
     .ticket-body {
-        min-height: 90vh;
+        min-height: 80vh;
     }
 }
 
 @media screen and (min-width: 1200px) {
     .ticket-body {
-        min-height: 70vh;
+        min-height: 60vh;
     }
 }
 
 @media screen and (min-width: 1400px) {
     .ticket-body {
         font-size: 1.3rem;
+    }
 
+    .ticket {
+        width: 350px;
     }
 }
 
-@media screen and (min-width: 1600px) {}
+@media screen and (min-width: 1600px) {
+    .ticket {
+        width: 450px;
+    }
+}

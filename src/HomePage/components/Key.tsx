@@ -9,17 +9,14 @@ export const Key: React.FC<{ produit: Produit, handleKeyPress: MouseEventHandler
             <button
                 key={props.produit.id}
                 value={props.produit.id}
-                className="btn btn-block text-light"
-                style={{
-                    backgroundColor: props.produit?.typeProduit === 1 ? ('#cd6c1e') : ('#ccc')
-                }}
+                className="btn btn-block text-light overflow-elipsis"
                 onClick={props.handleKeyPress}
             >
-                <figure className="">
+                <figure className="mt-1 mb-0">
                     <img
                         key={props.produit.id}
                         src={props.produit.urlPicture}
-                        alt="image de boisson"
+                        alt="Boisson"
                     />
                 </figure>
                 {props.produit.description}

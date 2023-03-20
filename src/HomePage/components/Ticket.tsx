@@ -1,9 +1,13 @@
 import React from 'react';
 import '../../HomePage/css/ticket.css';
+import { ItemTicket } from './CashRegister';
 
 
 
-const Ticket: React.FC<{ items: any[], total: number, count: number }> = (props) => {
+const Ticket: React.FC<{
+    items: ItemTicket[], total: number, count: number,
+    handleDeleteItemTicket: any
+}> = (props) => {
     const timestamp: number = Date.now();
     const date: Date = new Date(timestamp);
     let ticketNumber = props.count;
@@ -28,6 +32,7 @@ const Ticket: React.FC<{ items: any[], total: number, count: number }> = (props)
                                     d-flex justify-content-center align-items-center"
                                 type={"button"}
                                 id="deleteProduit"
+                                onClick={() => props.handleDeleteItemTicket(item)}
                             >
                                 X
                             </button>

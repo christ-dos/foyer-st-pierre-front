@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Produit } from '../../models/Produit';
-import Keyboard from './keyboard';
+import { CashRegisterPanel } from './CashRegisterPanel';
+import { PaymentComponent } from './PaymentComponent';
 import Ticket from './Ticket';
 
-type ItemTicket = {
+export type ItemTicket = {
     id: string,
     description: string,
     quantite: number,
@@ -14,9 +15,10 @@ type ItemTicket = {
 function CashRegister(): JSX.Element {
     const [total, setTotal] = useState<number>(0);
     const [payment, setPayment] = useState<number>(0);
+    const [monnaie, setMonnaie] = useState<number>(0);
     const [produits, setProduits] = useState<Produit[]>([]);
     const [produitsTicket, setProduitsTicket] = useState<Set<ItemTicket>>(new Set([]));
-    // const [items, setItems] = useState<Set<ItemTicket>>(new Set([]));
+
 
     const articles: Produit[] = [
         { id: 1, description: "Coca-ligth 33cl", prixVente: 1, typeProduit: 1, urlPicture: "/images/canette-coca.png" },
@@ -27,8 +29,9 @@ function CashRegister(): JSX.Element {
         { id: 6, description: "bière1 33cl", prixVente: 1, typeProduit: 2, urlPicture: "./images/canette_biere.png" },
         { id: 7, description: "bière2 33cl", prixVente: 1, typeProduit: 2, urlPicture: "./images/canette_biere.png" },
         { id: 8, description: "bière3 33cl", prixVente: 1, typeProduit: 2, urlPicture: "./images/canette_biere.png" },
-        { id: 9, description: "bière4 33cl", prixVente: 1, typeProduit: 2, urlPicture: "./images/canette_biere.png" }
-
+        { id: 9, description: "bière4 33cl", prixVente: 1, typeProduit: 2, urlPicture: "./images/canette_biere.png" },
+        { id: 10, description: "kit kat", prixVente: 1, typeProduit: 3, urlPicture: "./images/kitKat.png" },
+        { id: 11, description: "Chips", prixVente: 1, typeProduit: 3, urlPicture: "./images/chips.png" }
     ]
 
     let count = 1;
@@ -39,8 +42,34 @@ function CashRegister(): JSX.Element {
 
     }, [])
 
+    const handleDeleteItemTicket = (item: ItemTicket) => {
+        console.log("id: " + item.id);
+        const itemsArray = Array.from(produitsTicket)
 
-    const additionnerTotalTicket = (produit: any) => {
+        const indexASupprimer = itemsArray.findIndex(produit => produit.id === item.id)
+        if (indexASupprimer !== -1) {
+            if (itemsArray[indexASupprimer].totalSommeArticle === 1) {
+                itemsArray.splice(indexASupprimer, 1);
+            } else {
+                const itemRecherche = itemsArray.find(el => el.id === item.id);
+                if (itemRecherche != null) {
+                    const newItem = {
+                        id: itemRecherche.id,
+                        quantite: (itemRecherche.quantite - 1),
+                        prixVente: itemRecherche.prixVente,
+                        description: itemRecherche.description,
+                        totalSommeArticle: (itemRecherche.totalSommeArticle - itemRecherche.prixVente),
+                    }
+                    itemsArray.splice(indexASupprimer, 1, newItem);
+                }
+            }
+        }
+        setProduitsTicket(new Set([...itemsArray]));
+        setTotal(total - item.prixVente);
+    }
+
+
+    const additionnerTotalTicket = (produit: Produit | ItemTicket) => {
         if (!isNaN(produit.prixVente)) {
             const newTotal = total + produit.prixVente;
             setTotal(parseFloat(newTotal.toFixed(2)));
@@ -49,17 +78,14 @@ function CashRegister(): JSX.Element {
 
     const handleKeyPress = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const key = event.currentTarget.value;
-        console.log(key)
 
         const elementExist = [...produitsTicket].find((el) => el.id === key)
         if (elementExist) {
-
             elementExist.quantite += 1;
             elementExist.totalSommeArticle = elementExist.prixVente * elementExist.quantite;
             setProduitsTicket((produitsTicket) => new Set([...produitsTicket, elementExist]));
 
             additionnerTotalTicket(elementExist);
-
         }
 
         for (const produit of produits) {
@@ -72,78 +98,53 @@ function CashRegister(): JSX.Element {
         }
     };
 
-    const handlePayment = () => {
+    const handlePayment = (payment: number): number => {
         const change = payment - total;
-        alert(`Change: ${change.toFixed(2)}`);
+        //alert(`Change: ${change.toFixed(2)}`);
+        setMonnaie(change);
+        return change
+    };
+
+    const handleSaveTicket = () => {
+        // on creera un nouvel objet de type ticket
+        //avec la liste des articles vendu pour mettre a jour les stocks
+        //le total du ticket et la date de la vente
+        //on enregistrera le ticket ds la BDD
         setTotal(0);
         setPayment(0);
-    };
+        setMonnaie(0)
+        setProduitsTicket(new Set);
+    }
 
     return (
         <>
             <div className='container-fluid d-md-flex 
                 min-lg-vh-100 justify-content-md-center'>
-                <div className='row'>
+                <div className='row  d-flex justify-content-center'>
                     <div className='col-12 col-md-7 col-lg-8'>
-                        {/*Mobile */}
-                        <div className="row cash-register mt-3 d-sm-none d-md-none d-lg-none d-xl-none d-xxl-none">
-                            <Keyboard
-                                handleKeyPress={handleKeyPress}
-                                produits={produits} ligne={10} colonne={3}
-                            />
-                        </div>
-
-                        {/*Small */}
-                        <div className="row cash-register mt-3 d-none d-lg-none d-md-none d-xl-none d-xxl-none d-sm-block ">
-                            <Keyboard
-                                handleKeyPress={handleKeyPress}
-                                produits={produits} ligne={7} colonne={4}
-                            />
-                        </div>
-
-                        {/*Medium */}
-                        <div className="row 
-                            cash-register d-flex 
-                            justify-content-center mt-3 
-                            d-none d-lg-none d-xl-none d-xxl-none d-md-block">
-                            <Keyboard
-                                handleKeyPress={handleKeyPress}
-                                produits={produits} ligne={7} colonne={3}
-                            />
-                        </div>
-
-                        {/*desktop Large */}
-                        <div className="cash-register 
-                            mt-3 d-none d-xl-none d-xxl-none d-lg-block">
-                            <Keyboard
-                                handleKeyPress={handleKeyPress}
-                                produits={produits} ligne={7} colonne={4}
-                            />
-                        </div>
-
-                        {/*desktop X-Large */}
-                        <div className="cash-register mt-3 d-none d-xl-block">
-                            <Keyboard
-                                handleKeyPress={handleKeyPress}
-                                produits={produits} ligne={6} colonne={5}
-                            />
-                        </div>
+                        <CashRegisterPanel handleKeyPress={handleKeyPress} />
                     </div>
-                    <div className='col-12 col-md-5 col-lg-4 d-flex
-                            justify-content-center align-items-start mt-3'>
-                        <Ticket items={[...produitsTicket]} total={total} count={count++} />
-
+                    <div className='row col-12 col-md-5 col-lg-4 d-flex 
+                             align-items-start mt-3'>
+                        <div className="col-12 d-flex justify-content-center">
+                            <Ticket items={[...produitsTicket]}
+                                total={total} count={count++}
+                                handleDeleteItemTicket={handleDeleteItemTicket} />
+                        </div>
+                        < div className="col-12 mt-1 mb-3 pe-0 ">
+                            <PaymentComponent total={+total}
+                                handlePayment={handlePayment}
+                                monnaie={monnaie}
+                                handleSaveTicket={handleSaveTicket} />
+                        </div>
                     </div>
                 </div>
-
-
-
             </div>
             <div className='row d-flex justify-content-end'>
                 <div className="col-12 col-md-4 payment">
                     <input type="number" value={payment}
                         onChange={(event) => setPayment(parseFloat(event.target.value))} placeholder="Paiement" />
-                    <button onClick={handlePayment}>Valider</button>
+                    {/** <button onClick={handlePayment}>Valider</button>*/}
                 </div>
             </div>
         </>

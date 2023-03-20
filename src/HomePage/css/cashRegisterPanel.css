@@ -1,0 +1,40 @@
+#panel .onglet {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-size: 1.1rem;
+    letter-spacing: -0.3rem;
+    font-weight: 600;
+}
+
+#panel .div-onglet {
+    margin-bottom: 3px;
+    background-color: #ccc;
+    border: 2px solid rgb(17, 16, 16);
+    border-top-left-radius: 10px;
+
+}
+
+button {
+    box-shadow: 0px 2px 0px #959494;
+}
+
+#panel nav {
+    border-right: 2px solid rgba(214, 106, 22, 255);
+}
+
+#panel .nav-tabs .nav-link.active {
+    background-color: #d66a16;
+    position: relative;
+    top: 2px;
+    transform: scale(1.1);
+    transition: transform 0.5s;
+    border-bottom: none;
+    box-shadow: 0px 3px 0px rgba(0, 0, 0, 0.25);
+}
+
+.keyboard {
+    border: 3px solid rgba(214, 106, 22, 255);
+    padding-right: 2px;
+    padding-left: 2px;
+
+}

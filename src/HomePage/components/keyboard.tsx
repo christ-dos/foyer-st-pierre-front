@@ -1,32 +1,39 @@
 import React, { MouseEventHandler } from 'react';
+import { Produit } from '../../models/Produit';
 import { Key } from './Key';
 
-const Keyboard: React.FC<{ handleKeyPress: MouseEventHandler, produits: any[], ligne: number, colonne: number }> = (props) => {
+const Keyboard: React.FC<{
+    handleKeyPress: MouseEventHandler, produits: any[],
+    ligne: number, colonne: number, typeProduit: number
+}> = (props) => {
     const buttons: string | any[] = [];
 
-
     for (const produit of props.produits) {
-        buttons.push(
-            < Key produit={produit} handleKeyPress={props.handleKeyPress} key={produit.id} />
-        );
-
+        if (produit.typeProduit === props.typeProduit) {
+            buttons.push(
+                < Key produit={produit} handleKeyPress={props.handleKeyPress} key={produit.id} />
+            );
+        }
     }
-    if (props.produits.length < 30) {
-        const difference = 30 - props.produits.length;
+
+    const filterListe = props.produits.filter((produit: Produit) =>
+        produit.typeProduit === props.typeProduit
+    )
+
+    if (filterListe.length < 30) {
+        const difference = 30 - filterListe.length;
         let count = props.produits.length + 1
 
-
         for (let index = 0; index < difference; index++) {
-            const produit = { id: (count), description: "...", prixVente: 0, typeProduit: 0, urlPicture: "/images/canette.gif" }
+            const produit = { id: (count), description: "...", prixVente: 0, typeProduit: 0, urlPicture: "" }
             buttons.push(
                 < Key produit={produit} handleKeyPress={props.handleKeyPress} key={count++} />
             );
         }
-
     }
 
-    // Diviser le tableau de boutons en 5 rangées de 6 boutons chacune
-    //pour ecran lg
+    // Diviser le tableau de boutons en fonction de la taille des ecrans
+
     const rows = [];
     for (let i = 0; i < props.ligne; i++) {
         const start = i * props.colonne;
