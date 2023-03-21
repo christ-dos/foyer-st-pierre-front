@@ -1,18 +1,29 @@
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const PaymentComponent: React.FC<{
     total: number, handlePayment: any,
     monnaie: number, handleSaveTicket: any
 }> = (props) => {
 
-    const [payment, setPayment] = useState<number>(0);
+    const [payment, setPayment] = useState("");
     const [rendreMonnaieIsClicked, setRendreMonnaieIsClicked] = useState(false);
 
     const isButtonValid = props.total > 0;
     const isButtonEnregistrerTicketValid = (props.monnaie === 0 && rendreMonnaieIsClicked) ||
         (props.monnaie > 0)
+
+    useEffect(() => {
+        /*let input = document.getElementById('sommePaye');
+         console.log(input);
+         console.log("value: ", input?.getAttribute('value'));
+         if (!rendreMonnaieIsClicked) {
+             input?.setAttribute('value', "")
+             console.log("value: ", input?.getAttribute('value'));
+         }*/
+
+    }, [rendreMonnaieIsClicked])
 
     return (
         <>
@@ -38,7 +49,7 @@ export const PaymentComponent: React.FC<{
 
             {/** <!-- Modal Rendu Monnaie -->*/}
             <div className="modal fade" id="calculMonnaieModal" tabIndex={-1} aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+                aria-hidden="true" data-bs-backdrop='static'>
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header text-light"
@@ -52,22 +63,33 @@ export const PaymentComponent: React.FC<{
                         </div>
                         <div className="modal-body mt-2">
                             {props.monnaie < 0 &&
-                                <p className="alert alert-danger"> <FontAwesomeIcon icon={faTriangleExclamation} style={{ fontSize: '1.5rem', marginRight: '5px' }} /> La somme payée doit être supérieur à la somme due</p>
+                                <p className="alert alert-danger"><FontAwesomeIcon icon={faTriangleExclamation} style={{ fontSize: '1.5rem', marginRight: '5px' }} /> La somme payée doit être supérieur à la somme due</p>
                             }
                             <div className="input-group mb-3">
-                                <span className="input-group-text " >Total €</span>
-                                <input type="text" className="form-control" value={props.total.toFixed(2)} aria-label="Amount (to the nearest dollar)" readOnly />
+                                <span className="input-group-text text-light bg-dark" >Total €</span>
+                                <input type="text" className="form-control"
+                                    value={props.total.toFixed(2)}
+                                    aria-label="Amount (to the nearest dollar)"
+                                    readOnly />
                             </div>
                             <div className="input-group mb-3">
-                                <span className="input-group-text " >A payer</span>
-                                <input type="number" className="form-control col-7"
+                                <span className="input-group-text bg-dark text-light"
+                                >Payé</span>
+                                <input type="number"
+                                    id="sommePaye"
+                                    className="form-control col-7"
                                     aria-label="Amount (to the nearest dollar)"
-                                    onChange={(e: any) => setPayment(+parseFloat(e.target.value))}
-                                    defaultValue="" />
+                                    onChange={(e: any) => setPayment(e.target.value)}
+                                    value={payment}
+                                />
                                 <button type="button"
                                     className="btn btn-sm btn-primary ms-1 rounded col-4"
                                     style={{ backgroundColor: '#d66a16' }}
-                                    onClick={() => { props.handlePayment(payment); setRendreMonnaieIsClicked(true) }}>
+                                    onClick={() => {
+                                        props.handlePayment(payment);
+                                        setRendreMonnaieIsClicked(true);
+                                    }}
+                                >
                                     A rendre
                                 </button>
                             </div>
@@ -92,7 +114,11 @@ export const PaymentComponent: React.FC<{
                             <button type="button" className="btn text-light"
                                 data-bs-dismiss="modal"
                                 style={{ backgroundColor: '#d66a16' }}
-                                onClick={() => { props.handleSaveTicket(); setRendreMonnaieIsClicked(false) }}
+                                onClick={() => {
+                                    props.handleSaveTicket();
+                                    setRendreMonnaieIsClicked(false);
+                                    setPayment('');
+                                }}
                                 disabled={!isButtonEnregistrerTicketValid}
                             >Enregistrer Ticket
                             </button>

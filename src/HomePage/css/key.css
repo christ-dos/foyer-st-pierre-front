@@ -8,6 +8,8 @@
     background-color: #ccc;
     font-size: 0.7rem;
     text-overflow: ellipsis;
+    color: white;
+    font-weight: 600;
 }
 
 #touche button:hover {
@@ -25,8 +27,6 @@
     max-height: 100%;
     height: 35px;
 }
-
-
 
 @media screen and (min-width: 576px) {}
 

@@ -110,6 +110,8 @@ function CashRegister(): JSX.Element {
         //avec la liste des articles vendu pour mettre a jour les stocks
         //le total du ticket et la date de la vente
         //on enregistrera le ticket ds la BDD
+       
+
         setTotal(0);
         setPayment(0);
         setMonnaie(0)
@@ -138,13 +140,6 @@ function CashRegister(): JSX.Element {
                                 handleSaveTicket={handleSaveTicket} />
                         </div>
                     </div>
-                </div>
-            </div>
-            <div className='row d-flex justify-content-end'>
-                <div className="col-12 col-md-4 payment">
-                    <input type="number" value={payment}
-                        onChange={(event) => setPayment(parseFloat(event.target.value))} placeholder="Paiement" />
-                    {/** <button onClick={handlePayment}>Valider</button>*/}
                 </div>
             </div>
         </>

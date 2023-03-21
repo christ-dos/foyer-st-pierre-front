@@ -9,7 +9,7 @@ export const Key: React.FC<{ produit: Produit, handleKeyPress: MouseEventHandler
             <button
                 key={props.produit.id}
                 value={props.produit.id}
-                className="btn btn-block text-light overflow-elipsis"
+                className="btn btn-block overflow-elipsis"
                 onClick={props.handleKeyPress}
             >
                 <figure className="mt-1 mb-0">

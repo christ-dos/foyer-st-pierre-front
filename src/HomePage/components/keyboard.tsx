@@ -25,7 +25,7 @@ const Keyboard: React.FC<{
         let count = props.produits.length + 1
 
         for (let index = 0; index < difference; index++) {
-            const produit = { id: (count), description: "...", prixVente: 0, typeProduit: 0, urlPicture: "" }
+            const produit = { id: (count), description: "...", prixVente: 0, typeProduit: 0, urlPicture: "./images/addIconSmall.png" }
             buttons.push(
                 < Key produit={produit} handleKeyPress={props.handleKeyPress} key={count++} />
             );
