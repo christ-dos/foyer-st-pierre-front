@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Produit } from '../../models/Produit';
+import { Produit } from '../../../models/Produit';
 import { CashRegisterPanel } from './CashRegisterPanel';
 import { PaymentComponent } from './PaymentComponent';
 import Ticket from './Ticket';

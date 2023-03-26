@@ -100,7 +100,7 @@ export const PaymentComponent: React.FC<{
                                     :
                                     (
                                         <p className="lead fw-bold"
-                                            style={props.monnaie > 0 ? { color: '#d66a16' } : { color: 'red' }}>
+                                            style={props.monnaie > 0 ? { color: 'green' } : { color: 'red' }}>
                                             {props.monnaie} €
                                         </p>
                                     )

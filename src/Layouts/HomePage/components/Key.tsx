@@ -1,5 +1,5 @@
 import { MouseEventHandler } from "react";
-import { Produit } from "../../models/Produit";
+import { Produit } from "../../../models/Produit";
 import './../../HomePage/css/key.css'
 
 export const Key: React.FC<{ produit: Produit, handleKeyPress: MouseEventHandler }> = (props) => {

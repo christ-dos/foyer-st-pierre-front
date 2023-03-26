@@ -1,5 +1,5 @@
 import React, { MouseEventHandler } from 'react';
-import { Produit } from '../../models/Produit';
+import { Produit } from '../../../models/Produit';
 import { Key } from './Key';
 
 const Keyboard: React.FC<{

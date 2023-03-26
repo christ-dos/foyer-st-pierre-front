@@ -10,7 +10,7 @@
     margin-bottom: 3px;
     background-color: #ccc;
     border: 2px solid rgb(17, 16, 16);
-    border-top-left-radius: 10px;
+    /* border-top-left-radius: 10px;*/
 
 }
 
@@ -34,7 +34,6 @@ button {
 
 .keyboard {
     border: 3px solid rgba(214, 106, 22, 255);
-    padding-right: 2px;
     padding-left: 2px;
 
 }

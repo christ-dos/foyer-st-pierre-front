@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Produit } from "../../models/Produit";
+import { Produit } from "../../../models/Produit";
 import './../../HomePage/css/cashRegisterPanel.css';
 import Keyboard from "./keyboard";
 import { TabPanel } from "./TabPanel";
