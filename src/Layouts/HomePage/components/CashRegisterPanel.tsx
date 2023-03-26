@@ -27,8 +27,6 @@ export const CashRegisterPanel: React.FC<{ handleKeyPress: any }> = (props) => {
     },[])
 
     
-
-
     const handleTabClick = (tabIndex: number) => {
         setActiveTab(tabIndex);
     };
